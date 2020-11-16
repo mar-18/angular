@@ -17,12 +17,20 @@ export class ListaDestinosComponent implements OnInit {
   guardar(nombre:string, url:string, desc:string):boolean{
     //guardamos los datos ingresados con push creando un nuevo elemento
     this.destinos.push(new DestinoViaje(nombre, url, desc));
+    
     //mostramos un objeto crado a partir de el modelo destino-viaje
     console.log(new DestinoViaje(nombre, url, desc));
     //mostramos en la consola el array de destinos que estamos guardando
     console.log(this.destinos)
     //cuando carga bien los datos no recarga la pagina
     return false;
+
+  }
+  elegido(d:DestinoViaje){
+    this.destinos.forEach(function(x){
+      x.setSelected(false);
+      d.setSelected(true);
+    });
 
   }
 

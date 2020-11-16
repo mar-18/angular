@@ -8,6 +8,7 @@
                 <p>{{destino.imagenurl}}
                 </p>
                 <textarea name="" id="" cols="20" rows="10">{{destino.descripcion}}</textarea>
-            <a href="#"	class="btn-card">Leer más</a>			
+            <a href="#"	class="btn-card" (click)="ir()">Leer más</a>
+            <span [style.display]="destino.isSelected() ? '' : 'none'">Preferido</span>			
         </div>
     </div>
