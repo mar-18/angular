@@ -14,11 +14,11 @@ export class ListaDestinosComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  guardar(nombre:string, url:string):boolean{
+  guardar(nombre:string, url:string, desc:string):boolean{
     //guardamos los datos ingresados con push creando un nuevo elemento
-    this.destinos.push(new DestinoViaje(nombre, url));
+    this.destinos.push(new DestinoViaje(nombre, url, desc));
     //mostramos un objeto crado a partir de el modelo destino-viaje
-    console.log(new DestinoViaje(nombre, url));
+    console.log(new DestinoViaje(nombre, url, desc));
     //mostramos en la consola el array de destinos que estamos guardando
     console.log(this.destinos)
     //cuando carga bien los datos no recarga la pagina
