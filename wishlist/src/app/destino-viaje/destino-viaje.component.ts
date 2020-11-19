@@ -7,7 +7,7 @@ import { DestinoViaje } from '../models/destino-viaje.models';
   styleUrls: ['./destino-viaje.component.css']
 })
 export class DestinoViajeComponent implements OnInit {
-
+  @Input("idx") position:number;//varible puesta en semana2
   @Input() destino:DestinoViaje;
   @HostBinding('attr.class') cssClass ='col-md-4';//tiene una vinculacion direncta de un atributo con el tag a usar
   @Output() clicked :EventEmitter<DestinoViaje>;

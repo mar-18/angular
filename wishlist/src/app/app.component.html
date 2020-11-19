@@ -1,11 +1,22 @@
 
 <div class="container content">
+  <div class="page-header">
+    <div class="container">
+      <h1> Ruteo simple</h1>
+      <div class="navLinks">
+        <a [routerLink]="['/home']">Home</a>
+        <!--usamos una directiva de angular para crear las vinculaciones que son lo referente a href-->
+        <a [routerLink]="['/destino']">Destino</a>
+      </div>
+
+    </div>
+  </div>
   <div class="row">
     <h1>
       Lista de deseos
     </h1>
-
   </div>
-  
-  <app-lista-destinos></app-lista-destinos>
+  <!--Ruta para vincular las rutas -->
+  <router-outlet></router-outlet>
+
 </div>

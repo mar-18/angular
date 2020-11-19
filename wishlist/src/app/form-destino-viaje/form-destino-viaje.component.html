@@ -1,0 +1,45 @@
+
+<form
+[formGroup]="fg"
+(ngSubmit)="guardar(
+                        fg.controls['nombre'].value,
+                        fg.controls['url'].value,
+                        fg.controls['descripcion'].value
+            )">
+<div class="form-group">
+<label for="nombre">Nombre</label>
+<input type="text" class="form-control"
+    id="nombre" placeholder="Ingresar nombre..."
+    [formControl]="fg.controls['nombre']">
+    <div *ngIf="fg.controls['nombre'].hasError('required')">
+        Nombre no debe estar vacio
+    </div>
+    <!--Construccion de propias validaciones-->
+    <div *ngIf="fg.controls['nombre'].hasError('invalidNombre')">
+        Nombre invalido, tiene menos de 3 caracteres
+    </div>
+    <div *ngIf="fg.controls['nombre'].hasError('minLongNombre')"
+				class="alert alert-danger" role="alert">
+			el nombre debe tener al menos {{ minLongitud }} caracteres!
+	</div>
+    <div *ngIf="fg.controls['nombre'].hasError('longMinNombre')">
+        el nombre debe de tener minimo {{minLong}} caracteres
+    </div>
+</div>
+<div class="form-group">
+<label for="Imagen Url">Imagen Url</label>
+<input type="text" class="form-control"
+    id="imagenUrl" placeholder="Ingresar url..."
+    [formControl]="fg.controls['url']">
+    <div *ngIf="fg.controls['nombre'].hasError('required')">
+        Si tiene el error campo vacio
+    </div>
+</div>
+<div class="form-group">
+    <label for="descripcion">Descripcion</label>
+    <input type="text" class="form-control"
+        id="descripcion" placeholder="Descripcion"
+        [formControl]="fg.controls['descripcion']">
+    </div>
+<button type="submit" class="btn btn-primary" *ngIf="fg.valid">Guardar!</button>
+</form>
