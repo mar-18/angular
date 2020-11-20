@@ -13,10 +13,12 @@
   </div>
   <div class="row">
     <h1>
-      Lista de deseos
+      {{title}}
     </h1>
   </div>
   <!--Ruta para vincular las rutas -->
   <router-outlet></router-outlet>
 
 </div>
+<hr class="mb-5">
+Fecha: {{ time | async}}

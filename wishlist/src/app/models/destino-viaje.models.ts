@@ -1,6 +1,10 @@
+import { UUID } from 'uuid-generator-ts';
+
 export class DestinoViaje{
     private selected:boolean
     servicios:string[];
+    id = new UUID();
+    public votes = 0;
     constructor(public nombre:string, public imagenurl:string, public descripcion:string) { 
       this.servicios=['almuezo','desayuno'];//agregando servicios
     }
@@ -10,6 +14,11 @@ export class DestinoViaje{
     setSelected(s:boolean){
       this.selected=s;//variable que decide el select
     }
-
+    voteUp(): any {
+      this.votes++;
+    }
+    voteDown(): any {
+      this.votes--;
+    }
 }
 

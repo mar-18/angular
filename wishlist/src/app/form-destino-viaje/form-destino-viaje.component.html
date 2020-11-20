@@ -11,6 +11,10 @@
 <input type="text" class="form-control"
     id="nombre" placeholder="Ingresar nombre..."
     [formControl]="fg.controls['nombre']">
+    <!--Lista de autocompletado-->
+    <ul>
+        <li *ngFor="let r of result;">{{r}}</li>
+    </ul>
     <div *ngIf="fg.controls['nombre'].hasError('required')">
         Nombre no debe estar vacio
     </div>
@@ -18,12 +22,8 @@
     <div *ngIf="fg.controls['nombre'].hasError('invalidNombre')">
         Nombre invalido, tiene menos de 3 caracteres
     </div>
-    <div *ngIf="fg.controls['nombre'].hasError('minLongNombre')"
-				class="alert alert-danger" role="alert">
-			el nombre debe tener al menos {{ minLongitud }} caracteres!
-	</div>
-    <div *ngIf="fg.controls['nombre'].hasError('longMinNombre')">
-        el nombre debe de tener minimo {{minLong}} caracteres
+    <div *ngIf="fg.controls['nombre'].hasError('longMinNombre')" class="alert alert-danger" role="alert">
+        el nombre debe de tener minimo {{minLongitud}} caracteres
     </div>
 </div>
 <div class="form-group">

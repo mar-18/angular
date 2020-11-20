@@ -1,5 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { fromEvent } from 'rxjs';
+import { ajax, AjaxResponse } from 'rxjs/ajax';
+import { map, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { DestinoViaje } from '../models/destino-viaje.models';
 
 @Component({
@@ -7,15 +10,17 @@ import { DestinoViaje } from '../models/destino-viaje.models';
   templateUrl: './form-destino-viaje.component.html',
   styleUrls: ['./form-destino-viaje.component.css']
 })
-export class FormDestinoViajeComponent implements OnInit {
+
+export class FormDestinoViajeComponent {
   @Output() onItemAdded: EventEmitter<DestinoViaje>;
   fg: FormGroup;
   minLongitud = 5;
-  minLong: 3;
+  result: string[];
+
   constructor(fb: FormBuilder) { 
     this.onItemAdded = new EventEmitter();
     this.fg =fb.group({
-      /* nombre:['', Validators.required], */ 
+      /* nombre: ['', Validators.required], */ 
       /*. compose cuando usamos nuestras propias validaciones
       nombre: ['', Validators.compose([
         Validators.required,
@@ -45,6 +50,17 @@ export class FormDestinoViajeComponent implements OnInit {
 	);
   }
   ngOnInit(): void {
+    let elemNombre= <HTMLInputElement>document.getElementById('nombre');
+    fromEvent(elemNombre, 'input')
+      .pipe(
+        map((e: KeyboardEvent) => (e.target as HTMLInputElement).value),
+        filter(text => text.length > 2),
+        debounceTime(200),
+        distinctUntilChanged(),
+        switchMap(() => ajax('/assets/datos.json'))/*Consulta de un ejemplo Servicio de servidor */
+      ).subscribe(AjaxResponse => {
+        this.result = AjaxResponse.response
+      })
   }
   guardar(nombre: string, url:string, descripcion: string): boolean{
     let d = new DestinoViaje(nombre, url, descripcion);
@@ -59,24 +75,15 @@ export class FormDestinoViajeComponent implements OnInit {
     return null;
   }
   /**Funcion con parametros teneiendo en cuenta simpre la log minima de caracteres */
-/*   nombreValidatorParametrizable(minLong: number): ValidatorFn {
+  nombreValidatorParametrizable(minLongitud: number): ValidatorFn {
     return (control: FormControl): { [s: string]: boolean } | null => {
       const long = control.value.toString().trim().length;
-    if (long > 0 && long < minLong) {
-      return {longMinNombre: true};
+    if (long > 0 && long < minLongitud) {
+      return { longMinNombre: true };
     }
     return null;
     };
-  } */
- 
-  nombreValidatorParametrizable(minLong: number): ValidatorFn {
-    return (control: FormControl): { [key: string]: boolean } | null => {
-    const l = control.value.toString().trim().length;
-      if (l > 0 && l < minLong) {
-            return { 'minLongNombre': true };
-        }
-        return null;
-    };
-}
+  } 
+
 
 }
