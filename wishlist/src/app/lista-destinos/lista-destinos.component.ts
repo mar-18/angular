@@ -15,6 +15,7 @@ export class ListaDestinosComponent implements OnInit {
   @Output() onItemAdded: EventEmitter<DestinoViaje>;
   //lista de actualizaciones cuando se elige un elemento, nos lo muestra
   updates: string[];
+  all;
 
  //destinos: DestinoViaje[];//inicializamos la clase del objeto de tipo destino viaje creada en models
   constructor(public destinosApiClient:DestinosApiClient, private store: Store<AppState> ) {
@@ -27,6 +28,7 @@ export class ListaDestinosComponent implements OnInit {
         this.updates.push('se ha elegido: '+ d.nombre);
       }
     });
+    store.select(state => state.destinos.items).subscribe(items => this.all = items);
 
   }
 
@@ -35,7 +37,7 @@ export class ListaDestinosComponent implements OnInit {
   agregado(d:DestinoViaje){
     this.destinosApiClient.add(d);
     this.onItemAdded.emit(d);
-    this.store.dispatch(new ElegidoFavoritoAction(d));
+    //this.store.dispatch(new ElegidoFavoritoAction(d));
     //guardamos los datos ingresados con push creando un nuevo elemento
     //this.destinos.push(new DestinoViaje(nombre, url, desc));
     
@@ -50,11 +52,13 @@ export class ListaDestinosComponent implements OnInit {
     //lo modificamos en destino api client
     //this.destinosApiClient.getAll().forEach(x => x.setSelected(false));
     this.destinosApiClient.elegir(e);
-    this.store.dispatch(new ElegidoFavoritoAction(e));
+    //this.store.dispatch(new ElegidoFavoritoAction(e));
       //x.setSelected(false);
       e.setSelected(true);
     };
+    getAll(){
 
+    }
   
 
 }

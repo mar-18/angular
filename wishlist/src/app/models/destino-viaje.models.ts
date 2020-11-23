@@ -4,8 +4,8 @@ export class DestinoViaje{
     private selected:boolean
     servicios:string[];
     id = new UUID();
-    public votes = 0;
-    constructor(public nombre:string, public imagenurl:string, public descripcion:string) { 
+    //public votes = 0;
+    constructor(public nombre:string, public imagenurl:string, public descripcion:string, public votes: number = 0) { 
       this.servicios=['almuezo','desayuno'];//agregando servicios
     }
     isSelected():boolean{
