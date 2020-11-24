@@ -5,20 +5,30 @@ import { StoreModule as NgRxStoreModule, ActionReducerMap, Store, StoreModule } 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { DestinoViajeComponent } from './destino-viaje/destino-viaje.component';
-import { ListaDestinosComponent } from './lista-destinos/lista-destinos.component';
-import { DestinoDetalleComponent } from './destino-detalle/destino-detalle.component';
+import { DestinoViajeComponent } from './components/destino-viaje/destino-viaje.component';
+import { ListaDestinosComponent } from './components/lista-destinos/lista-destinos.component';
+import { DestinoDetalleComponent } from './components/destino-detalle/destino-detalle.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormDestinoViajeComponent } from './form-destino-viaje/form-destino-viaje.component';
+import { FormDestinoViajeComponent } from './components/form-destino-viaje/form-destino-viaje.component';
 import { DestinosApiClient } from './models/destinos-api-client.model';
 import { DestinosViajesState, reducerDestinosViajes, intializeDestinosViajesState, DestinosViajesEffects } from './models/destinos-viajes-states.models';
 import { Effect, EffectsModule } from '@ngrx/effects';
+import { LoginComponent } from './components/login/login/login.component';
+import { ProtectedComponent } from './components/protected/protected/protected.component';
+import { AuthService } from './services/auth.service';
+import { UsuarioLogueadoGuard } from './guards/usuario-logueado/usuario-logueado.guard';
 
 
 const routes: Routes=[
   { path: '', redirectTo:'home', pathMatch:'full'},
   { path: 'home', component: ListaDestinosComponent},
-  { path: 'destino', component: DestinoDetalleComponent}
+  { path: 'destino/', component: DestinoDetalleComponent},
+  { path: 'login', component: LoginComponent },
+    {
+      path: 'protected',
+      component: ProtectedComponent,
+      canActivate: [ UsuarioLogueadoGuard ] 
+    }
 ];
 // redux init
 export interface AppState {
@@ -39,6 +49,8 @@ let reducersInitialState = {
     ListaDestinosComponent,
     DestinoDetalleComponent,
     FormDestinoViajeComponent,
+    LoginComponent,
+    ProtectedComponent,
     //NgRxStoreModule
     //StoreModule
     
@@ -57,7 +69,7 @@ let reducersInitialState = {
 
   ],
   providers: [
-    DestinosApiClient
+    DestinosApiClient, UsuarioLogueadoGuard, AuthService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, HostBinding, EventEmitter, Output } from '@angular/core';
-import { DestinoViaje } from '../models/destino-viaje.models';
+import { DestinoViaje } from '../../models/destino-viaje.models';
 import { Store } from '@ngrx/store';
 
-import { VoteUpAction, VoteDownAction } from '../models/destinos-viajes-states.models';
+import { VoteUpAction, VoteDownAction } from '../../models/destinos-viajes-states.models';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { AppState } from '../app.module';
+import { AppState } from '../../app.module';
 
 @Component({
   selector: 'app-destino-viaje',
