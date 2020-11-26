@@ -6,10 +6,12 @@ import { DestinoViaje } from '../../models/destino-viaje.models';
 import { DestinosApiClient } from '../../models/destinos-api-client.model';
 import { ElegidoFavoritoAction } from '../../models/destinos-viajes-states.models';
 
+
 @Component({
   selector: 'app-lista-destinos',
   templateUrl: './lista-destinos.component.html',
-  styleUrls: ['./lista-destinos.component.css']
+  styleUrls: ['./lista-destinos.component.css'],
+  providers: [ DestinosApiClient ]//inyeccion de dependencias intermedio
 })
 export class ListaDestinosComponent implements OnInit {
   @Output() onItemAdded: EventEmitter<DestinoViaje>;
@@ -18,7 +20,7 @@ export class ListaDestinosComponent implements OnInit {
   all;
 
  //destinos: DestinoViaje[];//inicializamos la clase del objeto de tipo destino viaje creada en models
-  constructor(public destinosApiClient:DestinosApiClient, private store: Store<AppState> ) {
+  constructor(private destinosApiClient:DestinosApiClient, private store: Store<AppState> ) {
      this.onItemAdded = new EventEmitter();
     //this.destinos=[];//al crear un objeto inicializamos la cadena vacia
     this.updates = [];

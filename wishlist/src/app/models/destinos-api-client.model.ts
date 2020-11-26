@@ -6,6 +6,7 @@ import { DestinoViaje } from './destino-viaje.models';
 import { ElegidoFavoritoAction, NuevoDestinoAction } from './destinos-viajes-states.models';
 @Injectable()
 export class DestinosApiClient {
+	destinos: DestinoViaje[];
 		constructor(private store: Store<AppState>) {
        
 	}
@@ -16,7 +17,9 @@ export class DestinosApiClient {
 	/*getAll():DestinoViaje[]{
 	  return this.destinos;
     }*/
-
+	getById(id: String): DestinoViaje {
+		return this.destinos.filter(function(d) { return d.id.toString() === id; })[0];
+	  }
 	elegir(d: DestinoViaje){
 		this.store.dispatch(new ElegidoFavoritoAction(d));
 	}
