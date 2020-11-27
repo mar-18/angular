@@ -7,7 +7,7 @@ import { DestinosApiClient } from '../../models/destinos-api-client.model';
   selector: 'app-destino-detalle',
   templateUrl: './destino-detalle.component.html',
   styleUrls: ['./destino-detalle.component.css'],
-  providers: [DestinosApiClient]
+  providers: [DestinosApiClient]//inyeccion de dependencias intermedio
 })
 
 export class DestinoDetalleComponent implements OnInit {
