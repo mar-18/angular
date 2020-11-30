@@ -1,8 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { fromEvent } from 'rxjs';
 import { ajax, AjaxResponse } from 'rxjs/ajax';
 import { map, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { AppConfig, APP_CONFIG } from 'src/app/app.module';
 import { DestinoViaje } from '../../models/destino-viaje.models';
 
 @Component({
@@ -17,7 +18,7 @@ export class FormDestinoViajeComponent {
   minLongitud = 5;
   result: string[];
 
-  constructor(fb: FormBuilder) { 
+  constructor(fb: FormBuilder, @Inject(forwardRef(() => APP_CONFIG)) private config: AppConfig) { 
     this.onItemAdded = new EventEmitter();
     this.fg =fb.group({
       /* nombre: ['', Validators.required], */ 
@@ -57,10 +58,8 @@ export class FormDestinoViajeComponent {
         filter(text => text.length > 2),
         debounceTime(200),
         distinctUntilChanged(),
-        switchMap(() => ajax('/assets/datos.json'))/*Consulta de un ejemplo Servicio de servidor */
-      ).subscribe(AjaxResponse => {
-        this.result = AjaxResponse.response
-      })
+        switchMap((text: string) => ajax(this.config.apiEndpoint + '/ciudades?q=' + text))
+        ).subscribe(ajaxResponse => this.result = ajaxResponse.response);
   }
   guardar(nombre: string, url:string, descripcion: string): boolean{
     let d = new DestinoViaje(nombre, url, descripcion);
