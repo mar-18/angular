@@ -4,6 +4,7 @@ import { Routes, RouterModule} from '@angular/router'
 import { StoreModule as NgRxStoreModule, ActionReducerMap, Store, StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { Dexie } from 'dexie';
 
 import { DestinoViajeComponent } from './components/destino-viaje/destino-viaje.component';
 import { ListaDestinosComponent } from './components/lista-destinos/lista-destinos.component';
@@ -23,6 +24,7 @@ import { VuelosMasInfoComponentComponent } from './components/vuelos/vuelos-mas-
 import { VuelosDetalleComponentComponent } from './components/vuelos/vuelos-detalle-component/vuelos-detalle-component.component';
 import { ReservasModule } from './reservas/reservas.module';
 import { HttpClientModule, HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
+import { DestinoViaje } from './models/destino-viaje.models';
 
 // init routing
 export const childrenRoutesVuelos: Routes = [
@@ -60,6 +62,33 @@ const APP_CONFIG_VALUE: AppConfig = {
 };
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');
 // fin app config
+
+// dexie db
+export class Translation {
+  constructor(public id: number, public lang: string, public key: string, public value: string) {}
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MyDatabase extends Dexie {
+  destinos: Dexie.Table<DestinoViaje, number>;
+  translations: Dexie.Table<Translation, number>;
+  constructor () {
+      super('MyDatabase');
+      this.version(1).stores({
+        destinos: '++id, nombre, imagenUrl'
+      });
+      this.version(2).stores({
+        destinos: '++id, nombre, imagenUrl',
+        translations: '++id, lang, key, value'
+      });
+  }
+}
+
+export const db = new MyDatabase();
+// fin dexie db
+
 // app init
 export function init_app(appLoadService: AppLoadService): () => Promise<any>  {
   return () => appLoadService.intializeDestinosViajesState();
@@ -125,7 +154,8 @@ let reducersInitialState = {
     /* DestinosApiClient ,*/ UsuarioLogueadoGuard, AuthService,
     { provide: APP_CONFIG, useValue: APP_CONFIG_VALUE },
     AppLoadService,
-    { provide: APP_INITIALIZER, useFactory: init_app, deps: [AppLoadService], multi: true }
+    { provide: APP_INITIALIZER, useFactory: init_app, deps: [AppLoadService], multi: true },
+    MyDatabase
   ],
   bootstrap: [AppComponent]
 })
