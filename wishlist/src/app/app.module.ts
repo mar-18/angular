@@ -28,9 +28,11 @@ import { HttpClientModule, HttpClient, HttpHeaders, HttpRequest, HttpResponse } 
 import { DestinoViaje } from './models/destino-viaje.models';
 import { from, Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools/src/instrument';
-
-
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+//import { LngLatLike, Marker, PointLike, Anchor, Alignment  } from 'mapbox-gl';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // init routing
 export const childrenRoutesVuelos: Routes = [
@@ -187,7 +189,7 @@ function HttpLoaderFactory(http: HttpClient) {
   ],
   imports: [
     BrowserModule,
-    //BrowserAnimationsModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
@@ -196,6 +198,8 @@ function HttpLoaderFactory(http: HttpClient) {
     EffectsModule.forRoot([DestinosViajesEffects]),
     StoreDevtoolsModule.instrument(),
     ReservasModule,
+    
+    // Instrumentation must be imported after importing StoreModule (config is optional)
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,
@@ -203,7 +207,12 @@ function HttpLoaderFactory(http: HttpClient) {
           deps: [HttpClient]
       }
     }),
-    //NgxMapboxGLModule
+    NgxMapboxGLModule,
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    NgxMapboxGLModule.withConfig({
+      accessToken: 'TOKEN', // Optional, can also be set per map (accessToken input of mgl-map)
+      geocoderAccessToken: 'TOKEN' // Optional, specify if different from the map access token, can also be set per mgl-geocoder (accessToken input of mgl-geocoder)
+    })
   ],
   providers: [
     /* DestinosApiClient ,*/ 
