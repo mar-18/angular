@@ -18,6 +18,7 @@
                         </li>  
                     </ul>
                     <div>
+                        <!--Registro de actividad d usuario appTrackearclick-->
                         <a href="#" (click)="voteUp()" appTrackearClick data-trackear-tags="destino_vote_up lista_destinos_item">
                             <i class="material-icons md-18">thumb_up</i>
                         </a>
@@ -30,12 +31,11 @@
                     </div>
                 
                 <textarea name="" id="" cols="20" rows="10">{{destino.descripcion}}</textarea>
-            <a href="#"	class="btn-card" (click)="ir()">Leer más</a>
-            <span *ngIf="destino.isSelected()">
-                <span ngNonBindable>
-                    Preferido}} ponemos las llaves
-                </span> 
-                <a [routerLink]="['/destino']">Ver detalle</a>
+                <a href="#" class="btn-card" (click)="ir()" appTrackearClick data-trackear-tags="destino_elegir_preferido lista_destinos_item">IR!</a>
+                <span *ngIf="destino.isSelected()">
+                    <span ngNonBindable>{{ PREFERIDO! }}</span>
+                </span>
+                <a [routerLink]="['/destino', destino.id]">Ver!</a>
             </span>			
         </div>
     </div>

@@ -33,6 +33,8 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EspiameDirective } from './espiame.directive';
+import { TrackearClickDirective } from './trackear-click.directive';
 
 // init routing
 export const childrenRoutesVuelos: Routes = [
@@ -179,6 +181,8 @@ function HttpLoaderFactory(http: HttpClient) {
     VuelosMainComponentComponent,
     VuelosMasInfoComponentComponent,
     VuelosDetalleComponentComponent,
+    EspiameDirective,
+    TrackearClickDirective,
 
 /*        
     EspiameDirective,
